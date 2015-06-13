@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
 
 namespace SE2StackOverflow
 {
@@ -35,7 +36,7 @@ namespace SE2StackOverflow
                     d.Add(column, reader[column].ToString());   
                 }
 
-                questionList.Items.Add(String.Format("{4} {0} {1} {2}", d["title"], d["username"], d["dateposted"], d["ident"]));
+                questionList.Items.Add(String.Format("{0}: {1} {2} {3}", d["ident"], d["title"], d["username"], d["dateposted"]));
 
                 questions.Add(d);
             }
@@ -43,7 +44,15 @@ namespace SE2StackOverflow
 
         protected void questionList_Click(object sender, BulletedListEventArgs e)
         {
-            
+            string text = questionList.Items[e.Index].Value;
+            Match match = Regex.Match(text,"(\\d+:)");
+
+            if(match.Success)
+            {
+                // We halen nu het ID op
+                string id = match.Groups[0].Value.Replace(':', ' ').Trim();
+                Response.Redirect(String.Format("~/Post.aspx?post={0}", id));
+            }        
         }
     }
 }

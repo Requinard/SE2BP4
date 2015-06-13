@@ -4,7 +4,7 @@
 
  
 
-    <asp:BulletedList ID="questionList" runat="server" OnClick="questionList_Click">
+    <asp:BulletedList ID="questionList" runat="server" DisplayMode="LinkButton" OnClick="questionList_Click">
     </asp:BulletedList>
 
  
