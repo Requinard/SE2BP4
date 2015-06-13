@@ -79,6 +79,33 @@ namespace SE2StackOverflow
 
             return queryResult;
         }
+
+        public List<Dictionary<string, string>> GetJSONQuery(string query)
+        {
+            List<Dictionary<string, string>> ret = new List<Dictionary<string, string>>();
+            OracleDataReader reader = this.QueryDB(query);
+
+            var columns = new List<string>();
+
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                columns.Add(reader.GetName(i).ToLower());
+            }
+
+            while (reader.Read())
+            {
+                Dictionary<string, string> d = new Dictionary<string, string>();
+
+                foreach (var column in columns)
+                {
+                    d.Add(column, reader[column].ToString());
+                }
+
+                ret.Add(d);
+            }
+
+            return ret;
+        }
     }
 
     public static class DatabaseSingleton
