@@ -11,13 +11,14 @@ namespace SE2StackOverflow
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.HttpMethod == "POST")
+            HttpCookie cookie = Request.Cookies["user_id"];
+
+            if (Request.HttpMethod == "POST" && !string.IsNullOrEmpty(cookie.Value))
             {
-                PostCommentController.CreateNewPost(Request.Form, 1);
+                PostCommentController.CreateNewPost(Request.Form, Int32.Parse(cookie.Value));
 
                 Response.Redirect("Default.aspx");
             }
-
         }
     }
 }

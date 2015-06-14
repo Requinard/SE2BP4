@@ -108,6 +108,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Indexform.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -190,6 +191,14 @@
     <Compile Include="Indexform.aspx.designer.cs">
       <DependentUpon>Indexform.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LoginLogic.cs" />
     <Compile Include="LongQueries.cs" />
     <Compile Include="Post.aspx.cs">
       <DependentUpon>Post.aspx</DependentUpon>

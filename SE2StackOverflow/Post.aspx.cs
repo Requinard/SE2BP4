@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
     using System.Web.UI;
 
     public partial class Post : Page
@@ -15,13 +16,14 @@
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpCookie cookie = Request.Cookies["user_id"];
             this.post_id = int.Parse(this.Request.QueryString["post"]);
 
             var db = DatabaseSingleton.GetInstance();
 
-            if (this.Request.HttpMethod == "POST")
+            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(cookie.Value))
             {
-                PostCommentController.InsertComment(this.Request.Form, this.post_id, 1);
+                PostCommentController.InsertComment(this.Request.Form, this.post_id, Int32.Parse(cookie.Value));
             }
 
             PostCommentController.RetrievePost(post_id, out this.post, out this.answers);
