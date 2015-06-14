@@ -4,8 +4,7 @@
 
  
 
-    <asp:BulletedList ID="questionList" runat="server" DisplayMode="LinkButton" OnClick="questionList_Click">
-    </asp:BulletedList>
+    <asp:Label ID="PostLabel" runat="server" Text="Label"></asp:Label>
 
  
 

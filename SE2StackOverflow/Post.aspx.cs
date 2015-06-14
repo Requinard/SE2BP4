@@ -33,11 +33,12 @@
         {
             var placeholder = this.post.First();
             this.PostLabel.Text = string.Format(
-                "<h1>{0}</h1><h4>{1} - {2}</h4><p>{3}</p>",
+                "<h1>{0}</h1><h4>{1} - {2}</h4><p>{3}</p><p>Tagged as: <i>{4}</i></p>",
                 placeholder["title"],
                 placeholder["dateposted"],
                 placeholder["username"],
-                placeholder["postbody"]);
+                placeholder["postbody"],
+                placeholder["tags"]);
 
             this.AnswerLabel.Text = "";
             foreach (var ans in this.answers)
