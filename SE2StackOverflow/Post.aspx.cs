@@ -1,51 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace SE2StackOverflow
+﻿namespace SE2StackOverflow
 {
-    using System.Web.WebPages;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.UI;
 
-    public partial class Post : System.Web.UI.Page
+    public partial class Post : Page
     {
-        private int post_id;
+        private List<Dictionary<string, string>> answers;
 
         private List<Dictionary<string, string>> post;
-        private List<Dictionary<string, string>> answers;
+
+        private int post_id;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
-            {
-                post_id = Int32.Parse(Request.QueryString["post"]);
-            }
-            catch (Exception)
-            {
-                post_id = 1;
-            }
-            Database db = DatabaseSingleton.GetInstance();
+            this.post_id = int.Parse(this.Request.QueryString["post"]);
 
-            if (post_id == null) post_id = 1;
-            post = db.GetJSONQuery(String.Format("select * from getpost where ident ='{0}'", post_id));
+            var db = DatabaseSingleton.GetInstance();
 
-            answers = db.GetJSONQuery(String.Format("select * from getpostcomments where postident = '{0}'", post_id));
+            if (this.Request.HttpMethod == "POST")
+            {
+                PostCommentController.InsertComment(this.Request.Form, this.post_id, 1);
+            }
+
+            PostCommentController.RetrievePost(post_id, out this.post, out this.answers);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            Dictionary<string, string> placeholder = post.First();
-            PostLabel.Text = String.Format("<h1>{0}</h1><h4>{1} - {2}</h4><p>{3}</p>", placeholder["title"], placeholder["dateposted"], placeholder["username"], placeholder["postbody"]);
+            var placeholder = this.post.First();
+            this.PostLabel.Text = string.Format(
+                "<h1>{0}</h1><h4>{1} - {2}</h4><p>{3}</p>",
+                placeholder["title"],
+                placeholder["dateposted"],
+                placeholder["username"],
+                placeholder["postbody"]);
 
-            AnswerLabel.Text = "";
-            foreach (var ans in answers)
+            this.AnswerLabel.Text = "";
+            foreach (var ans in this.answers)
             {
-                AnswerLabel.Text += String.Format("<h4>{0}</h4><p>{1}</p>", ans["username"], ans["commentbody"]);
+                this.AnswerLabel.Text += string.Format("<h4>{0}</h4><p>{1}</p>", ans["username"], ans["commentbody"]);
             }
+        }
 
-
-        } 
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Console.Write("test");
+        }
     }
 }

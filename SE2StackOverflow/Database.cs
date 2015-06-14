@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SE2StackOverflow
+﻿namespace SE2StackOverflow
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data;
-    using System.IO;
-    using System.Windows.Forms;
 
     using Oracle.DataAccess.Client;
 
+    public enum SQLOperator
+    {
+        MIN,
+
+        MAX
+    }
+
     public class Database
     {
-        private OracleConnection oracleConnection;
+        private readonly OracleConnection oracleConnection;
 
         /// <summary>
         ///     Connects to our database
@@ -21,18 +23,24 @@ namespace SE2StackOverflow
         public Database()
         {
             // make sure the dbmanager can't reinitialise
-            if (oracleConnection != null
-                && (oracleConnection.State != ConnectionState.Broken || oracleConnection.State != ConnectionState.Closed))
+            if (this.oracleConnection != null
+                && (this.oracleConnection.State != ConnectionState.Broken
+                    || this.oracleConnection.State != ConnectionState.Closed))
             {
                 return;
             }
 
-            oracleConnection = new OracleConnection();
-            oracleConnection.ConnectionString = string.Format("User Id={0};Password={1};Data Source=//{2}:{3}/{4}",
-                "toets", "test", "localhost", "1521", "xe");
+            this.oracleConnection = new OracleConnection();
+            this.oracleConnection.ConnectionString = string.Format(
+                "User Id={0};Password={1};Data Source=//{2}:{3}/{4}",
+                "toets",
+                "test",
+                "localhost",
+                "1521",
+                "xe");
             try
             {
-                oracleConnection.Open();
+                this.oracleConnection.Open();
             }
             catch (OracleException)
             {
@@ -47,10 +55,10 @@ namespace SE2StackOverflow
         /// <returns>Object containing the result</returns>
         public OracleDataReader QueryDB(string query)
         {
-            TimeSpan time = DateTime.MaxValue - DateTime.MinValue;
+            var time = DateTime.MaxValue - DateTime.MinValue;
             OracleDataReader queryResult;
 
-            OracleCommand oracleCommand = oracleConnection.CreateCommand();
+            var oracleCommand = this.oracleConnection.CreateCommand();
 
             // Replace ; with EOS, so that this won't ever be a problem again
             oracleCommand.CommandText = query.Replace(';', '\0');
@@ -82,19 +90,19 @@ namespace SE2StackOverflow
 
         public List<Dictionary<string, string>> GetJSONQuery(string query)
         {
-            List<Dictionary<string, string>> ret = new List<Dictionary<string, string>>();
-            OracleDataReader reader = this.QueryDB(query);
+            var ret = new List<Dictionary<string, string>>();
+            var reader = this.QueryDB(query);
 
             var columns = new List<string>();
 
-            for (int i = 0; i < reader.FieldCount; i++)
+            for (var i = 0; i < reader.FieldCount; i++)
             {
                 columns.Add(reader.GetName(i).ToLower());
             }
 
             while (reader.Read())
             {
-                Dictionary<string, string> d = new Dictionary<string, string>();
+                var d = new Dictionary<string, string>();
 
                 foreach (var column in columns)
                 {
@@ -106,11 +114,20 @@ namespace SE2StackOverflow
 
             return ret;
         }
+
+        public string SingleIdentOperation(string tableName, SQLOperator oper)
+        {
+            OracleDataReader reader = QueryDB(String.Format("SELECT {0}(ident) FROM {1}", oper, tableName));
+
+            reader.Read();
+
+            return reader[0].ToString();
+        }
     }
 
     public static class DatabaseSingleton
     {
-        private static Database db = null;
+        private static Database db;
 
         public static Database GetInstance()
         {
