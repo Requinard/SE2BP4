@@ -1,10 +1,10 @@
-﻿<%@ Page Title="New Post" Language="C#" MasterPageFile="Site.Master" %>
+﻿<%@ Page Title="New Post" Language="C#" MasterPageFile="Site.Master" CodeBehind="NewPost.aspx.cs" Inherits="SE2StackOverflow.NewPost" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="col-lg-12">
             <h1>Een nieuwe vraag stellen</h1>
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="POST">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Titel</label>
                     <div class="col-sm-10">
@@ -24,6 +24,8 @@
                         <input type="text" class="form-control" name="tags" placeholder="C#, ASP.NET, Docker"/>
                     </div>
                 </div>
+                
+                <button type="submit" class="btn btn-success">Invoeren</button>
             </form>
         </div>
     </div>

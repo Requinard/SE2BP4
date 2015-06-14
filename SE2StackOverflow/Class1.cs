@@ -33,5 +33,16 @@ namespace SE2StackOverflow
 
             return post != null;
         }
+
+        public static bool CreateNewPost(NameValueCollection input, int user_id)
+        {
+            Database db = DatabaseSingleton.GetInstance();
+
+            string query = LongQueries.InsertPostQuery(input["title"], input["body"], 1);
+
+            OracleDataReader reader = db.QueryDB(query);
+
+            return reader != null;
+        }
     }
 }
