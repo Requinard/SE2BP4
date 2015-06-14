@@ -102,20 +102,18 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Indexform.aspx" />
-    <Content Include="Login.aspx" />
+    <Content Include="Pages\Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="NewPost.aspx" />
+    <Content Include="Pages\NewPost.aspx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Post.aspx" />
+    <Content Include="Pages\Post.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -145,7 +143,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Default.aspx" />
+    <Content Include="Pages\Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
@@ -164,47 +162,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="Default.aspx.cs">
+    <Compile Include="Logic\PostCommentLogic.cs" />
+    <Compile Include="Database\Database.cs" />
+    <Compile Include="Pages\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
+    <Compile Include="Pages\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Indexform.aspx.cs">
-      <DependentUpon>Indexform.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Indexform.aspx.designer.cs">
-      <DependentUpon>Indexform.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.cs">
+    <Compile Include="Pages\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
+    <Compile Include="Pages\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="LoginLogic.cs" />
-    <Compile Include="LongQueries.cs" />
-    <Compile Include="Post.aspx.cs">
+    <Compile Include="Logic\LoginLogic.cs" />
+    <Compile Include="Database\LongQueries.cs" />
+    <Compile Include="Pages\Post.aspx.cs">
       <DependentUpon>Post.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Post.aspx.designer.cs">
+    <Compile Include="Pages\Post.aspx.designer.cs">
       <DependentUpon>Post.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -229,11 +213,11 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="NewPost.aspx.cs">
+    <Compile Include="Pages\NewPost.aspx.cs">
       <DependentUpon>NewPost.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="NewPost.aspx.designer.cs">
+    <Compile Include="Pages\NewPost.aspx.designer.cs">
       <DependentUpon>NewPost.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
