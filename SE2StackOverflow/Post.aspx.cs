@@ -16,14 +16,24 @@
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            HttpCookie cookie = Request.Cookies["user_id"];
+            string user_id = "";
+
+            try
+            {
+                user_id = Session["user_id"].ToString();
+            }
+            catch (Exception)
+            {
+                user_id = "";
+            }
+
             this.post_id = int.Parse(this.Request.QueryString["post"]);
 
             var db = DatabaseSingleton.GetInstance();
 
-            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(cookie.Value))
+            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(user_id))
             {
-                PostCommentController.InsertComment(this.Request.Form, this.post_id, Int32.Parse(cookie.Value));
+                PostCommentController.InsertComment(this.Request.Form, this.post_id, Int32.Parse(user_id));
             }
 
             PostCommentController.RetrievePost(post_id, out this.post, out this.answers);

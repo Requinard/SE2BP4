@@ -17,6 +17,7 @@ namespace SE2StackOverflow
 
                 if (user_id != null)
                 {
+                    Session.Add("user_id", user_id.ToString());
                     HttpCookie cookie = new HttpCookie("user_id", user_id.ToString());
                     cookie.Expires.AddDays(1);
                     Response.Cookies.Add(cookie);

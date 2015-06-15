@@ -62,16 +62,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <p class="navbar-text">
-                            <% if (!string.IsNullOrEmpty(Request.Cookies["user_id"].Value))
-                                 { %> User ID: <%: Request.Cookies["user_id"].Value %><% }
-                                 else
-                                 { %>
-                                Not logged in
-                            <% } %>
-                        </p>
-                    </li>
+                    
                     <li>
                         <a href="Logout.aspx">Log out</a>
                     </li>

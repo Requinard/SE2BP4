@@ -11,11 +11,19 @@ namespace SE2StackOverflow
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            HttpCookie cookie = Request.Cookies["user_id"];
-
-            if (Request.HttpMethod == "POST" && !string.IsNullOrEmpty(cookie.Value))
+            string session;
+            try
             {
-                PostCommentController.CreateNewPost(Request.Form, Int32.Parse(cookie.Value));
+                session = this.Session["user_id"].ToString();
+            }
+            catch (Exception)
+            {
+                session = null;
+            }
+
+            if (Request.HttpMethod == "POST" && !string.IsNullOrEmpty(session))
+            {
+                PostCommentController.CreateNewPost(Request.Form, Int32.Parse(session));
 
                 Response.Redirect("Default.aspx");
             }
