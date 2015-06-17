@@ -10,7 +10,7 @@
 namespace SE2StackOverflow {
     
     
-    public partial class _Default {
+    public partial class Default {
         
         /// <summary>
         /// PostLabel control.

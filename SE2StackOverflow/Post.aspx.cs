@@ -11,31 +11,33 @@
 
         private List<Dictionary<string, string>> post;
 
-        private int post_id;
+        private int postId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            var user_id = "";
+            string userId;
 
             try
             {
-                user_id = this.Session["user_id"].ToString();
+                userId = this.Session["user_id"].ToString();
             }
             catch (Exception)
             {
-                user_id = "";
+                userId = string.Empty;
             }
 
-            this.post_id = int.Parse(this.Request.QueryString["post"]);
+            this.postId = int.Parse(this.Request.QueryString["post"]);
 
             var db = DatabaseSingleton.GetInstance();
 
-            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(user_id))
+            // If it's a post, we insert a new comment
+            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(userId))
             {
-                PostCommentController.InsertComment(this.Request.Form, this.post_id, int.Parse(user_id));
+                PostCommentController.InsertComment(this.Request.Form, this.postId, int.Parse(userId));
             }
-
-            PostCommentController.RetrievePost(this.post_id, out this.post, out this.answers);
+            
+            // haal de data op
+            PostCommentController.RetrievePost(this.postId, out this.post, out this.answers);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -50,7 +52,7 @@
                 placeholder["tags"],
                 placeholder["ident"]);
 
-            this.AnswerLabel.Text = "";
+            this.AnswerLabel.Text = string.Empty;
             foreach (var ans in this.answers)
             {
                 if (ans["isanswer"] == 1.ToString())

@@ -1,6 +1,5 @@
 ﻿namespace SE2StackOverflow
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
 
@@ -8,39 +7,59 @@
 
     public class PostCommentController
     {
-        public static bool InsertComment(NameValueCollection input, int post_id, int user_id)
+        /// <summary>
+        /// Creates a new comment
+        /// </summary>
+        /// <param name="input">Form that was filled in</param>
+        /// <param name="postId">ID of the post that is being commented on</param>
+        /// <param name="userId">ID of the active user</param>
+        /// <returns>Whether the operation wasa a success</returns>
+        public static bool InsertComment(NameValueCollection input, int postId, int userId)
         {
-            Validator.ValidateForm(input);
+            input = Validator.ValidateForm(input);
 
             var db = DatabaseSingleton.GetInstance();
-            var query = LongQueries.InsertCommentQuery(input["comment"], user_id, post_id);
+            var query = LongQueries.InsertCommentQuery(input["comment"], userId, postId);
 
-            var reader = db.QueryDB(query);
+            var reader = db.QueryDb(query);
 
             return reader != null;
         }
 
+        /// <summary>
+        /// Gets a specific post and its answers from the database
+        /// </summary>
+        /// <param name="postId">Post to retrieve</param>
+        /// <param name="post">JSON dictionary to hold the post</param>
+        /// <param name="answers">JSON dictionary to hold the answers</param>
+        /// <returns>whethere there was something retrieved</returns>
         public static bool RetrievePost(
-            int post_id,
+            int postId,
             out List<Dictionary<string, string>> post,
             out List<Dictionary<string, string>> answers)
         {
             var db = DatabaseSingleton.GetInstance();
-            post = db.GetJSONQuery(string.Format("select * from getpost where ident ='{0}'", post_id));
+            post = db.GetJsonQuery(string.Format("select * from getpost where ident ='{0}'", postId));
 
-            answers = db.GetJSONQuery(string.Format("select * from getpostcomments where postident = '{0}'", post_id));
+            answers = db.GetJsonQuery(string.Format("select * from getpostcomments where postident = '{0}'", postId));
 
             return post != null;
         }
 
-        public static bool CreateNewPost(NameValueCollection input, int user_id)
+        /// <summary>
+        /// Creates a new post
+        /// </summary>
+        /// <param name="input">Form that was filled in</param>
+        /// <param name="userId">ID of the active user</param>
+        /// <returns>Success of the operation</returns>
+        public static bool CreateNewPost(NameValueCollection input, int userId)
         {
             input = Validator.ValidateForm(input);
             var db = DatabaseSingleton.GetInstance();
 
-            var query = LongQueries.InsertPostQuery(input["title"], input["body"], user_id);
+            var query = LongQueries.InsertPostQuery(input["title"], input["body"], userId);
 
-            var reader = db.QueryDB(query);
+            var reader = db.QueryDb(query);
 
             if (reader != null)
             {
@@ -55,18 +74,18 @@
                     // Query the db if the key exists
                     query = string.Format("SELECT * FROM TAGS WHERE name = '{0}'", tag);
 
-                    reader = db.QueryDB(query);
+                    reader = db.QueryDb(query);
 
                     // If it doesn't we make it
                     if (!reader.HasRows)
                     {
-                        var second_query = string.Format(
+                        var secondQuery = string.Format(
                             "INSERT INTO TAGS (ident, name) VALUES ('{0}', '{1}');",
-                            Int32.Parse(db.SingleIdentOperation("tags", SQLOperator.MAX))+ 1,
+                            int.Parse(db.SingleIdentOperation("tags", SqlOperator.Max)) + 1,
                             tag);
 
-                        reader = db.QueryDB(second_query);
-                        reader = db.QueryDB(query);
+                        reader = db.QueryDb(secondQuery);
+                        reader = db.QueryDb(query);
                     }
 
                     if (reader == null)
@@ -77,26 +96,26 @@
                     reader.Read();
 
                     //We save the tag identity
-                    var tag_ident = reader["ident"].ToString();
+                    var tagIdent = reader["ident"].ToString();
 
                     // Now we get the last inserted row from the post
                     query = string.Format("SELECT ident FROM post WHERE title = '{0}'", input["title"]);
 
-                    reader = db.QueryDB(query);
+                    reader = db.QueryDb(query);
 
                     reader.Read();
-                    var post_ident = reader[0].ToString();
+                    var postIdent = reader[0].ToString();
 
                     // We can now couple them in M2M tables
 
                     query =
                         string.Format(
                             "INSERT INTO POSTTAGM2M (ident, tagident, postident) VALUES ('{0}', '{1}', '{2}');",
-                            int.Parse(db.SingleIdentOperation("posttagm2m", SQLOperator.MAX))+1,
-                            tag_ident,
-                            post_ident);
+                            int.Parse(db.SingleIdentOperation("posttagm2m", SqlOperator.Max)) + 1,
+                            tagIdent,
+                            postIdent);
 
-                    reader = db.QueryDB(query);
+                    reader = db.QueryDb(query);
                 }
             }
 

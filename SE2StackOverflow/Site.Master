@@ -61,14 +61,13 @@
                         <a runat="server" href="~/NewPost.aspx">Post a question</a>
                     </li>
                 </ul>
-               
-           
- 
+
+
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <!-- Blijkbaar kunnen forms niet in ASP.net -->
-                    <!-- http://weknowmemes.com/wp-content/uploads/2013/11/am-i-out-of-touch-no-its-the-children-who-are-wrong.jpg -->
-                     <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged" CssClass="form-control"></asp:TextBox>
+                        <!-- http://weknowmemes.com/wp-content/uploads/2013/11/am-i-out-of-touch-no-its-the-children-who-are-wrong.jpg -->
+                        <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1TextChanged" CssClass="form-control"></asp:TextBox>
                     </li>
                     <li>
                         <a href="Logout.aspx">Log out</a>

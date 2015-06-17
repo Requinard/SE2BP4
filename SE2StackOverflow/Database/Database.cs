@@ -6,13 +6,16 @@
 
     using Oracle.DataAccess.Client;
 
-    public enum SQLOperator
+    public enum SqlOperator
     {
-        MIN,
+        Min,
 
-        MAX
+        Max
     }
 
+    /// <summary>
+    /// Handles the connection and queries to the database
+    /// </summary>
     public class Database
     {
         private readonly OracleConnection oracleConnection;
@@ -29,7 +32,8 @@
             {
                 return;
             }
-
+            
+            //Set up the connection string
             this.oracleConnection = new OracleConnection();
             this.oracleConnection.ConnectionString = string.Format(
                 "User Id={0};Password={1};Data Source=//{2}:{3}/{4}",
@@ -53,9 +57,8 @@
         /// </summary>
         /// <param name="query">Query for the database</param>
         /// <returns>Object containing the result</returns>
-        public OracleDataReader QueryDB(string query)
+        public OracleDataReader QueryDb(string query)
         {
-            var time = DateTime.MaxValue - DateTime.MinValue;
             OracleDataReader queryResult;
 
             var oracleCommand = this.oracleConnection.CreateCommand();
@@ -68,18 +71,14 @@
 
             try
             {
-                //Logger.Info("Querying Database");
-                //Logger.Debug("Query: " + query);
                 queryResult = oracleCommand.ExecuteReader();
                 //Aangezien OracleDB zich niet aan de ACID standaard houd, committen wij na iedere query.
                 // Waarom ondersteunen ze niet gewoon ACID?
                 oracleCommand.CommandText = "commit";
                 oracleCommand.ExecuteReader();
-                //Logger.Success("Query Successfully executed");
             }
             catch (OracleException exception)
             {
-                //Logger.Error("Error querying datbase: " + exception.ToString());
                 Console.WriteLine(exception.ToString());
 
                 return null;
@@ -87,12 +86,18 @@
 
             return queryResult;
         }
-
-        public List<Dictionary<string, string>> GetJSONQuery(string query)
+        
+        /// <summary>
+        /// Executes a query and turns it into a JSON-lite
+        /// </summary>
+        /// <param name="query">Query to be executed</param>
+        /// <returns></returns>
+        public List<Dictionary<string, string>> GetJsonQuery(string query)
         {
             var ret = new List<Dictionary<string, string>>();
-            var reader = this.QueryDB(query);
+            var reader = this.QueryDb(query);
 
+            // We start reading the columns
             var columns = new List<string>();
 
             for (var i = 0; i < reader.FieldCount; i++)
@@ -100,6 +105,8 @@
                 columns.Add(reader.GetName(i).ToLower());
             }
 
+
+            // Now we read the reader
             while (reader.Read())
             {
                 var d = new Dictionary<string, string>();
@@ -115,9 +122,15 @@
             return ret;
         }
 
-        public string SingleIdentOperation(string tableName, SQLOperator oper)
+        /// <summary>
+        /// Executes an operation that returns a single value
+        /// </summary>
+        /// <param name="tableName">Name of the table to be queried</param>
+        /// <param name="oper">Operator to be used</param>
+        /// <returns>Result of the query</returns>
+        public string SingleIdentOperation(string tableName, SqlOperator oper)
         {
-            OracleDataReader reader = QueryDB(String.Format("SELECT {0}(ident) FROM {1}", oper, tableName));
+            var reader = this.QueryDb(string.Format("SELECT {0}(ident) FROM {1}", oper, tableName));
 
             reader.Read();
 
@@ -125,10 +138,17 @@
         }
     }
 
+    /// <summary>
+    /// Singleton for the Database class
+    /// </summary>
     public static class DatabaseSingleton
     {
         private static Database db;
 
+        /// <summary>
+        /// Returns a single instance of the database
+        /// </summary>
+        /// <returns>Database connection</returns>
         public static Database GetInstance()
         {
             if (db == null)

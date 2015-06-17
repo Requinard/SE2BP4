@@ -24,7 +24,7 @@
                         <input type="text" class="form-control" name="tags" placeholder="C#, ASP.NET, Docker"/>
                     </div>
                 </div>
-                
+
                 <button type="submit" class="btn btn-success">Invoeren</button>
             </form>
         </div>

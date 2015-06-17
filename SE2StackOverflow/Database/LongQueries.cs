@@ -3,63 +3,78 @@
     using System;
     using System.Text;
 
+    // Generates reaaaaaaally long queries
     public class LongQueries
     {
-        public static string InsertCommentQuery(string comment, int user_id, int post_id)
+        /// <summary>
+        /// Get the SQL for inserting a comment
+        /// </summary>
+        /// <param name="comment">textbody of the comment</param>
+        /// <param name="userId">ID of the posting user</param>
+        /// <param name="postId">ID of the parent comment</param>
+        /// <returns>SQL query to execute</returns>
+        public static string InsertCommentQuery(string comment, int userId, int postId)
         {
             var db = DatabaseSingleton.GetInstance();
 
-            var SQL = new StringBuilder();
-            SQL.Append("INSERT ");
-            SQL.Append("INTO POSTCOMMENT");
-            SQL.Append("  ( ");
-            SQL.Append("    IDENT, ");
-            SQL.Append("    USERIDENT, ");
-            SQL.Append("    POSTIDENT, ");
-            SQL.Append("    COMMENTBODY, ");
-            SQL.Append("    DATEPOST ");
-            SQL.Append("  ) ");
-            SQL.Append("  VALUES ");
-            SQL.Append("  ( ");
-            SQL.Append(string.Format("'{0}',", int.Parse(db.SingleIdentOperation("postcomment", SQLOperator.MAX)) + 1));
-            SQL.Append(string.Format("'{0}',", user_id));
-            SQL.Append(string.Format("'{0}',", post_id));
+            var sql = new StringBuilder();
+            sql.Append("INSERT ");
+            sql.Append("INTO POSTCOMMENT");
+            sql.Append("  ( ");
+            sql.Append("    IDENT, ");
+            sql.Append("    USERIDENT, ");
+            sql.Append("    POSTIDENT, ");
+            sql.Append("    COMMENTBODY, ");
+            sql.Append("    DATEPOST ");
+            sql.Append("  ) ");
+            sql.Append("  VALUES ");
+            sql.Append("  ( ");
+            sql.Append(string.Format("'{0}',", int.Parse(db.SingleIdentOperation("postcomment", SqlOperator.Max)) + 1));
+            sql.Append(string.Format("'{0}',", userId));
+            sql.Append(string.Format("'{0}',", postId));
 
-            SQL.Append(string.Format("'{0}',", comment));
-            SQL.Append(string.Format("TO_DATE('{0}', 'MM/DD/YYYY HH24:MI:SS') ", DateTime.Now));
-            SQL.Append("  ); ");
-            SQL.Append("COMMIT;");
+            sql.Append(string.Format("'{0}',", comment));
+            sql.Append(string.Format("TO_DATE('{0}', 'MM/DD/YYYY HH24:MI:SS') ", DateTime.Now));
+            sql.Append("  ); ");
+            sql.Append("COMMIT;");
 
-            return SQL.ToString();
+            return sql.ToString();
         }
 
-        public static string InsertPostQuery(string title, string post, int user_id)
+        /// <summary>
+        /// Creates the query to create a new post
+        /// </summary>
+        /// <param name="title">Title of the pos</param>
+        /// <param name="post">Body of the post</param>
+        /// <param name="userId">ID of the active user</param>
+        /// <returns>SQL query that can be executed</returns>
+        public static string InsertPostQuery(string title, string post, int userId)
         {
             var db = DatabaseSingleton.GetInstance();
 
-            var SQL = new StringBuilder();
+            var sql = new StringBuilder();
 
-            SQL.Append("INSERT ");
-            SQL.Append("INTO POST ");
-            SQL.Append("  ( ");
-            SQL.Append("    IDENT, ");
-            SQL.Append("    TITLE, ");
-            SQL.Append("    POSTBODY, ");
-            SQL.Append("    DATEPOSTED, ");
-            SQL.Append("    COMMUNITYIDENT, ");
-            SQL.Append("    USERIDENT ");
-            SQL.Append("  ) ");
-            SQL.Append("  VALUES ");
-            SQL.Append("  ( ");
-            SQL.Append(string.Format("'{0}',", int.Parse(db.SingleIdentOperation("post", SQLOperator.MAX)) + 1));
-            SQL.Append(string.Format("'{0}',", title));
-            SQL.Append(string.Format("'{0}',", post));
-            SQL.Append(string.Format("TO_DATE('{0}', 'MM/DD/YYYY HH24:MI:SS'), ", DateTime.Now));
-            SQL.Append("    '1', ");
-            SQL.Append(string.Format("'{0}'", user_id));
-            SQL.Append("  );");
+            sql.Append("INSERT ");
+            sql.Append("INTO POST ");
+            sql.Append("  ( ");
+            sql.Append("    IDENT, ");
+            sql.Append("    TITLE, ");
+            sql.Append("    POSTBODY, ");
+            sql.Append("    DATEPOSTED, ");
+            sql.Append("    COMMUNITYIDENT, ");
+            sql.Append("    USERIDENT ");
+            sql.Append("  ) ");
+            sql.Append("  VALUES ");
+            sql.Append("  ( ");
+            sql.Append(string.Format("'{0}',", int.Parse(db.SingleIdentOperation("post", SqlOperator.Max)) + 1));
+            sql.Append(string.Format("'{0}',", title));
+            sql.Append(string.Format("'{0}',", post));
+            sql.Append(string.Format("TO_DATE('{0}', 'MM/DD/YYYY HH24:MI:SS'), ", DateTime.Now));
+            sql.Append("    '1', ");
+            sql.Append(string.Format("'{0}'", userId));
+            sql.Append("  );");
 
-            return SQL.ToString();
+            return sql.ToString();
         }
     }
 }

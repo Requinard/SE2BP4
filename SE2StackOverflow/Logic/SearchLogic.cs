@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SE2StackOverflow.Logic
+﻿namespace SE2StackOverflow.Logic
 {
+    using System.Collections.Generic;
     using System.Collections.Specialized;
 
+    /// <summary>
+    ///     Provides logic for searching
+    /// </summary>
     public class SearchLogic
     {
+        /// <summary>
+        ///     Static function to search
+        /// </summary>
+        /// <param name="input">Form that needs to be processed</param>
+        /// <returns>A JSON list that has all related questions</returns>
         public static List<Dictionary<string, string>> Search(NameValueCollection input)
         {
             input = Validator.ValidateForm(input);
 
-            string user_query = input["query"];
+            var userQuery = input["query"];
 
-            string query = string.Format(
+            var query = string.Format(
                 "select * from post where title LIKE '%{0}%' OR postbody LIKE '%{0}%'",
-                user_query);
+                userQuery);
 
-            return DatabaseSingleton.GetInstance().GetJSONQuery(query);
+            return DatabaseSingleton.GetInstance().GetJsonQuery(query);
         }
     }
 }

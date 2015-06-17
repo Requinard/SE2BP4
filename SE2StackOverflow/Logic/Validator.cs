@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SE2StackOverflow.Logic
+﻿namespace SE2StackOverflow.Logic
 {
     using System.Collections.Specialized;
-    using System.Configuration;
 
+    /// <summary>
+    /// Handles validations
+    /// </summary>
     public class Validator
     {
+        /// <summary>
+        /// Validates an entire form
+        /// </summary>
+        /// <param name="form">Form that was filled in by a user</param>
+        /// <returns>Clean form</returns>
         public static NameValueCollection ValidateForm(NameValueCollection form)
         {
-            NameValueCollection ret = new NameValueCollection();
+            var ret = new NameValueCollection();
             foreach (string key in form.Keys)
             {
                 ret[key] = form[key];

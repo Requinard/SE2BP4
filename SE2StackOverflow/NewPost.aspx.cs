@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace SE2StackOverflow
+﻿namespace SE2StackOverflow
 {
-    public partial class NewPost : System.Web.UI.Page
+    using System;
+    using System.Web.UI;
+
+    public partial class NewPost : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,11 +17,12 @@ namespace SE2StackOverflow
                 session = null;
             }
 
-            if (Request.HttpMethod == "POST" && !string.IsNullOrEmpty(session))
+            // If it's a post, we insert a new post
+            if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(session))
             {
-                PostCommentController.CreateNewPost(Request.Form, Int32.Parse(session));
+                PostCommentController.CreateNewPost(this.Request.Form, int.Parse(session));
 
-                Response.Redirect("Default.aspx");
+                this.Response.Redirect("Default.aspx");
             }
         }
     }

@@ -9,7 +9,7 @@
         {
         }
 
-        protected void TextBox1_TextChanged(object sender, EventArgs e)
+        protected void TextBox1TextChanged(object sender, EventArgs e)
         {
             this.Response.Redirect(string.Format("~/Search.aspx?query={0}", this.TextBox1.Text.Replace(" ", "+")));
         }

@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace SE2StackOverflow
+﻿namespace SE2StackOverflow
 {
-    public partial class Login : System.Web.UI.Page
+    using System;
+    using System.Web;
+    using System.Web.UI;
+
+    public partial class Login : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.HttpMethod == "POST")
+            // If we're getting a POST request, we'll validate the data
+            if (this.Request.HttpMethod == "POST")
             {
-                int? user_id = LoginLogic.Login(Request.Form);
+                var userId = LoginLogic.Login(this.Request.Form);
 
-                if (user_id != null)
+                // If the uid is not null we are valid
+                if (userId != null)
                 {
-                    Session.Add("user_id", user_id.ToString());
-                    HttpCookie cookie = new HttpCookie("user_id", user_id.ToString());
-                    cookie.Expires.AddDays(1);
-                    Response.Cookies.Add(cookie);
-                    Response.Redirect("~/");
+                    // Add it to the session
+                    this.Session.Add("user_id", userId.ToString());
+                    this.Response.Redirect("~/");
                 }
             }
         }

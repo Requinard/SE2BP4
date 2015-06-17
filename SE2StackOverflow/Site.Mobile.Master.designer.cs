@@ -10,7 +10,7 @@
 namespace SE2StackOverflow {
     
     
-    public partial class Site_Mobile {
+    public partial class SiteMobile {
         
         /// <summary>
         /// HeadContent control.
