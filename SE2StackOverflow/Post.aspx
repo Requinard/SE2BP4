@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Post.aspx.cs" Inherits="SE2StackOverflow.Post" MasterPageFile="Site.Master" EnableViewState="True" enableEventValidation="true" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Post.aspx.cs" Inherits="SE2StackOverflow.Post" MasterPageFile="Site.Master" EnableViewState="True" enableEventValidation="False" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div>

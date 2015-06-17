@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: this.Page.Title %> - My ASP.NET Application</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -61,8 +61,15 @@
                         <a runat="server" href="~/NewPost.aspx">Post a question</a>
                     </li>
                 </ul>
+               
+           
+ 
                 <ul class="nav navbar-nav navbar-right">
-                    
+                    <li>
+                        <!-- Blijkbaar kunnen forms niet in ASP.net -->
+                    <!-- http://weknowmemes.com/wp-content/uploads/2013/11/am-i-out-of-touch-no-its-the-children-who-are-wrong.jpg -->
+                     <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged" CssClass="form-control"></asp:TextBox>
+                    </li>
                     <li>
                         <a href="Logout.aspx">Log out</a>
                     </li>
@@ -72,6 +79,7 @@
     </div>
     <div class="container">
         <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            <asp:Label ID="Error" runat="server" Text="Label"></asp:Label>
         </asp:ContentPlaceHolder>
         <hr/>
         <footer>
