@@ -1,10 +1,31 @@
-﻿namespace SE2StackOverflow
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NewPost.aspx.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The new post.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SE2StackOverflow
 {
     using System;
     using System.Web.UI;
 
+    /// <summary>
+    /// The new post.
+    /// </summary>
     public partial class NewPost : Page
     {
+        /// <summary>
+        /// The page_ load.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         protected void Page_Load(object sender, EventArgs e)
         {
             string session;

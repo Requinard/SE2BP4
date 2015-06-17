@@ -1,23 +1,43 @@
-﻿namespace SE2StackOverflow
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LongQueries.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The long queries.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SE2StackOverflow
 {
     using System;
     using System.Text;
 
     // Generates reaaaaaaally long queries
+    /// <summary>
+    /// The long queries.
+    /// </summary>
     public class LongQueries
     {
         /// <summary>
         /// Get the SQL for inserting a comment
         /// </summary>
-        /// <param name="comment">textbody of the comment</param>
-        /// <param name="userId">ID of the posting user</param>
-        /// <param name="postId">ID of the parent comment</param>
-        /// <returns>SQL query to execute</returns>
+        /// <param name="comment">
+        /// textbody of the comment
+        /// </param>
+        /// <param name="userId">
+        /// ID of the posting user
+        /// </param>
+        /// <param name="postId">
+        /// ID of the parent comment
+        /// </param>
+        /// <returns>
+        /// SQL query to execute
+        /// </returns>
         public static string InsertCommentQuery(string comment, int userId, int postId)
         {
-            var db = DatabaseSingleton.GetInstance();
+            Database db = DatabaseSingleton.GetInstance();
 
-            var sql = new StringBuilder();
+            StringBuilder sql = new StringBuilder();
             sql.Append("INSERT ");
             sql.Append("INTO POSTCOMMENT");
             sql.Append("  ( ");
@@ -44,15 +64,23 @@
         /// <summary>
         /// Creates the query to create a new post
         /// </summary>
-        /// <param name="title">Title of the pos</param>
-        /// <param name="post">Body of the post</param>
-        /// <param name="userId">ID of the active user</param>
-        /// <returns>SQL query that can be executed</returns>
+        /// <param name="title">
+        /// Title of the pos
+        /// </param>
+        /// <param name="post">
+        /// Body of the post
+        /// </param>
+        /// <param name="userId">
+        /// ID of the active user
+        /// </param>
+        /// <returns>
+        /// SQL query that can be executed
+        /// </returns>
         public static string InsertPostQuery(string title, string post, int userId)
         {
-            var db = DatabaseSingleton.GetInstance();
+            Database db = DatabaseSingleton.GetInstance();
 
-            var sql = new StringBuilder();
+            StringBuilder sql = new StringBuilder();
 
             sql.Append("INSERT ");
             sql.Append("INTO POST ");

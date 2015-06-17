@@ -1,16 +1,37 @@
-﻿namespace SE2StackOverflow
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Correct.aspx.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Marks an answer as correct
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace SE2StackOverflow
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.UI;
+
+    using Oracle.DataAccess.Client;
 
     /// <summary>
     /// Marks an answer as correct
     /// </summary>
     public partial class Correct : Page
     {
+        /// <summary>
+        /// The page_ load.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            var db = DatabaseSingleton.GetInstance();
+            Database db = DatabaseSingleton.GetInstance();
 
             string userId;
             string commentId;
@@ -31,19 +52,19 @@
             if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(commentId))
             {
                 // First we get the parent comment to validate that the user is the original poster
-                var comment =
+                List<Dictionary<string, string>> comment =
                     db.GetJsonQuery(
                         string.Format(
-                            "SELECT postcomment.ident as commentident, post.ident as postident, post.userident as userident FROM POSTCOMMENT JOIN POST ON (postcomment.postident = post.ident) WHERE postcomment.ident = '{0}'",
+                            "SELECT postcomment.ident as commentident, post.ident as postident, post.userident as userident FROM POSTCOMMENT JOIN POST ON (postcomment.postident = post.ident) WHERE postcomment.ident = '{0}'", 
                             commentId));
 
                 // If the user is the OP, we can continue
                 if (comment[0]["userident"] == userId)
                 {
                     // Create query and execute it
-                    var query = string.Format("update postcomment set isanswer = 1 where ident = '{0}'", commentId);
+                    string query = string.Format("update postcomment set isanswer = 1 where ident = '{0}'", commentId);
 
-                    var reader = db.QueryDb(query);
+                    OracleDataReader reader = db.QueryDb(query);
 
                     // If it was a success we redirect
                     if (reader != null)
