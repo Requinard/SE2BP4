@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
     using System.Web.UI;
 
     public partial class Post : Page
@@ -16,11 +15,11 @@
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string user_id = "";
+            var user_id = "";
 
             try
             {
-                user_id = Session["user_id"].ToString();
+                user_id = this.Session["user_id"].ToString();
             }
             catch (Exception)
             {
@@ -33,10 +32,10 @@
 
             if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(user_id))
             {
-                PostCommentController.InsertComment(this.Request.Form, this.post_id, Int32.Parse(user_id));
+                PostCommentController.InsertComment(this.Request.Form, this.post_id, int.Parse(user_id));
             }
 
-            PostCommentController.RetrievePost(post_id, out this.post, out this.answers);
+            PostCommentController.RetrievePost(this.post_id, out this.post, out this.answers);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -48,18 +47,32 @@
                 placeholder["dateposted"],
                 placeholder["username"],
                 placeholder["postbody"],
-                placeholder["tags"]);
+                placeholder["tags"],
+                placeholder["ident"]);
 
             this.AnswerLabel.Text = "";
             foreach (var ans in this.answers)
             {
-                this.AnswerLabel.Text += string.Format("<h4>{0}</h4><p>{1}</p>", ans["username"], ans["commentbody"]);
-            }
-        }
+                if (ans["isanswer"] == 1.ToString())
+                {
+                    this.AnswerLabel.Text +=
+                        string.Format(
+                            "<div class='panel panel-success'><div class='panel-heading'>Correct answer</div><div class='panel-body'><h4>{0}</h4><p>{1}</p></div></div>",
+                            ans["username"],
+                            ans["commentbody"],
+                            ans["ident"]);
+                }
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            Console.Write("test");
+                else
+                {
+                    this.AnswerLabel.Text +=
+                        string.Format(
+                            "<div class='panel panel-default'><div class='panel-heading'>Answer</div><div class='panel-body'><h4>{0}</h4><p>{1}</p><a href='/Correct?comment={2}'>Mark as correct</a></div></div>",
+                            ans["username"],
+                            ans["commentbody"],
+                            ans["ident"]);
+                }
+            }
         }
     }
 }
