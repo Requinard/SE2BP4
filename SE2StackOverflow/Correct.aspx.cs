@@ -6,17 +6,13 @@
 //   Marks an answer as correct
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
-    using System.Collections.Generic;
     using System.Web.UI;
 
-    using Oracle.DataAccess.Client;
-
     /// <summary>
-    /// Marks an answer as correct
+    ///     Marks an answer as correct
     /// </summary>
     public partial class Correct : Page
     {
@@ -31,11 +27,11 @@ namespace SE2StackOverflow
         /// </param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
             string userId;
             string commentId;
-            
+
             // try to read the user id and comment id
             try
             {
@@ -52,7 +48,7 @@ namespace SE2StackOverflow
             if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(commentId))
             {
                 // First we get the parent comment to validate that the user is the original poster
-                List<Dictionary<string, string>> comment =
+                var comment =
                     db.GetJsonQuery(
                         string.Format(
                             "SELECT postcomment.ident as commentident, post.ident as postident, post.userident as userident FROM POSTCOMMENT JOIN POST ON (postcomment.postident = post.ident) WHERE postcomment.ident = '{0}'", 
@@ -62,9 +58,9 @@ namespace SE2StackOverflow
                 if (comment[0]["userident"] == userId)
                 {
                     // Create query and execute it
-                    string query = string.Format("update postcomment set isanswer = 1 where ident = '{0}'", commentId);
+                    var query = string.Format("update postcomment set isanswer = 1 where ident = '{0}'", commentId);
 
-                    OracleDataReader reader = db.QueryDb(query);
+                    var reader = db.QueryDb(query);
 
                     // If it was a success we redirect
                     if (reader != null)

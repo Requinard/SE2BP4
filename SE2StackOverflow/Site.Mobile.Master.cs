@@ -6,14 +6,13 @@
 //   The site mobile.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
     using System.Web.UI;
 
     /// <summary>
-    /// The site mobile.
+    ///     The site mobile.
     /// </summary>
     public partial class SiteMobile : MasterPage
     {

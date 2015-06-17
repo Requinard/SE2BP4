@@ -6,14 +6,13 @@
 //   The logout.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
     using System.Web.UI;
 
     /// <summary>
-    /// The logout.
+    ///     The logout.
     /// </summary>
     public partial class Logout : Page
     {

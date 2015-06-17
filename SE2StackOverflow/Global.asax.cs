@@ -6,7 +6,6 @@
 //   The global.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -15,7 +14,7 @@ namespace SE2StackOverflow
     using System.Web.Routing;
 
     /// <summary>
-    /// The global.
+    ///     The global.
     /// </summary>
     public class Global : HttpApplication
     {

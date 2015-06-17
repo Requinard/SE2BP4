@@ -6,7 +6,6 @@
 //   The long queries.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -14,7 +13,7 @@ namespace SE2StackOverflow
 
     // Generates reaaaaaaally long queries
     /// <summary>
-    /// The long queries.
+    ///     The long queries.
     /// </summary>
     public class LongQueries
     {
@@ -35,9 +34,9 @@ namespace SE2StackOverflow
         /// </returns>
         public static string InsertCommentQuery(string comment, int userId, int postId)
         {
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
-            StringBuilder sql = new StringBuilder();
+            var sql = new StringBuilder();
             sql.Append("INSERT ");
             sql.Append("INTO POSTCOMMENT");
             sql.Append("  ( ");
@@ -78,9 +77,9 @@ namespace SE2StackOverflow
         /// </returns>
         public static string InsertPostQuery(string title, string post, int userId)
         {
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
-            StringBuilder sql = new StringBuilder();
+            var sql = new StringBuilder();
 
             sql.Append("INSERT ");
             sql.Append("INTO POST ");

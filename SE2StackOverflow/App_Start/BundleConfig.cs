@@ -6,14 +6,13 @@
 //   The bundle config.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System.Web.Optimization;
     using System.Web.UI;
 
     /// <summary>
-    /// The bundle config.
+    ///     The bundle config.
     /// </summary>
     public class BundleConfig
     {

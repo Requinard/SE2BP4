@@ -6,17 +6,14 @@
 //   Handles everything related to logging in
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System.Collections.Specialized;
 
-    using Oracle.DataAccess.Client;
-
     using SE2StackOverflow.Logic;
 
     /// <summary>
-    /// Handles everything related to logging in
+    ///     Handles everything related to logging in
     /// </summary>
     public class LoginLogic
     {
@@ -33,13 +30,13 @@ namespace SE2StackOverflow
         {
             input = Validator.ValidateForm(input);
 
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
-            string username = input["username"];
+            var username = input["username"];
 
-            string query = string.Format("SELECT password, ident FROM USERS where username = '{0}'", username);
+            var query = string.Format("SELECT password, ident FROM USERS where username = '{0}'", username);
 
-            OracleDataReader reader = db.QueryDb(query);
+            var reader = db.QueryDb(query);
             if (reader == null || !reader.HasRows)
             {
                 return null;

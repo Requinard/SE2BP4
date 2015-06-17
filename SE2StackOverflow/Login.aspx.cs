@@ -6,15 +6,13 @@
 //   The login.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
-    using System.Web;
     using System.Web.UI;
 
     /// <summary>
-    /// The login.
+    ///     The login.
     /// </summary>
     public partial class Login : Page
     {
@@ -32,7 +30,7 @@ namespace SE2StackOverflow
             // If we're getting a POST request, we'll validate the data
             if (this.Request.HttpMethod == "POST")
             {
-                int? userId = LoginLogic.Login(this.Request.Form);
+                var userId = LoginLogic.Login(this.Request.Form);
 
                 // If the uid is not null we are valid
                 if (userId != null)

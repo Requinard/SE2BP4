@@ -6,7 +6,6 @@
 //   The view switcher.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -17,22 +16,22 @@ namespace SE2StackOverflow
     using Microsoft.AspNet.FriendlyUrls.Resolvers;
 
     /// <summary>
-    /// The view switcher.
+    ///     The view switcher.
     /// </summary>
     public partial class ViewSwitcher : UserControl
     {
         /// <summary>
-        /// Gets the current view.
+        ///     Gets the current view.
         /// </summary>
         protected string CurrentView { get; private set; }
 
         /// <summary>
-        /// Gets the alternate view.
+        ///     Gets the alternate view.
         /// </summary>
         protected string AlternateView { get; private set; }
 
         /// <summary>
-        /// Gets the switch url.
+        ///     Gets the switch url.
         /// </summary>
         protected string SwitchUrl { get; private set; }
 
@@ -48,15 +47,15 @@ namespace SE2StackOverflow
         protected void Page_Load(object sender, EventArgs e)
         {
             // Determine current view
-            bool isMobile = WebFormsFriendlyUrlResolver.IsMobileView(new HttpContextWrapper(this.Context));
+            var isMobile = WebFormsFriendlyUrlResolver.IsMobileView(new HttpContextWrapper(this.Context));
             this.CurrentView = isMobile ? "Mobile" : "Desktop";
 
             // Determine alternate view
             this.AlternateView = isMobile ? "Desktop" : "Mobile";
 
             // Create switch URL from the route, e.g. ~/__FriendlyUrls_SwitchView/Mobile?ReturnUrl=/Page
-            string switchViewRouteName = "AspNet.FriendlyUrls.SwitchView";
-            RouteBase switchViewRoute = RouteTable.Routes[switchViewRouteName];
+            var switchViewRouteName = "AspNet.FriendlyUrls.SwitchView";
+            var switchViewRoute = RouteTable.Routes[switchViewRouteName];
             if (switchViewRoute == null)
             {
                 // Friendly URLs is not enabled or the name of the switch view route is out of sync
@@ -64,7 +63,7 @@ namespace SE2StackOverflow
                 return;
             }
 
-            string url = this.GetRouteUrl(
+            var url = this.GetRouteUrl(
                 switchViewRouteName, 
                 new { view = this.AlternateView, __FriendlyUrls_SwitchViews = true });
             url += "?ReturnUrl=" + HttpUtility.UrlEncode(this.Request.RawUrl);

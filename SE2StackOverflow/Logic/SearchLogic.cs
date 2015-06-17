@@ -6,7 +6,6 @@
 //   Provides logic for searching
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow.Logic
 {
     using System.Collections.Generic;
@@ -30,11 +29,9 @@ namespace SE2StackOverflow.Logic
         {
             input = Validator.ValidateForm(input);
 
-            string userQuery = input["query"];
+            var userQuery = input["query"];
 
-            string query = string.Format(
-                "select * from post where title LIKE '%{0}%' OR postbody LIKE '%{0}%'", 
-                userQuery);
+            var query = string.Format("select * from post where title LIKE '%{0}%' OR postbody LIKE '%{0}%'", userQuery);
 
             return DatabaseSingleton.GetInstance().GetJsonQuery(query);
         }

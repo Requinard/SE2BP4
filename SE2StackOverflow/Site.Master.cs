@@ -6,14 +6,13 @@
 //   The site master.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
     using System.Web.UI;
 
     /// <summary>
-    /// The site master.
+    ///     The site master.
     /// </summary>
     public partial class SiteMaster : MasterPage
     {

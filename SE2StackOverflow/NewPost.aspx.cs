@@ -6,14 +6,13 @@
 //   The new post.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
     using System.Web.UI;
 
     /// <summary>
-    /// The new post.
+    ///     The new post.
     /// </summary>
     public partial class NewPost : Page
     {

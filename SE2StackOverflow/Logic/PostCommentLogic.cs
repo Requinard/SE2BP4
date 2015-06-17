@@ -6,18 +6,15 @@
 //   The post comment controller.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
 
-    using Oracle.DataAccess.Client;
-
     using SE2StackOverflow.Logic;
 
     /// <summary>
-    /// The post comment controller.
+    ///     The post comment controller.
     /// </summary>
     public class PostCommentController
     {
@@ -40,10 +37,10 @@ namespace SE2StackOverflow
         {
             input = Validator.ValidateForm(input);
 
-            Database db = DatabaseSingleton.GetInstance();
-            string query = LongQueries.InsertCommentQuery(input["comment"], userId, postId);
+            var db = DatabaseSingleton.GetInstance();
+            var query = LongQueries.InsertCommentQuery(input["comment"], userId, postId);
 
-            OracleDataReader reader = db.QueryDb(query);
+            var reader = db.QueryDb(query);
 
             return reader != null;
         }
@@ -68,7 +65,7 @@ namespace SE2StackOverflow
             out List<Dictionary<string, string>> post, 
             out List<Dictionary<string, string>> answers)
         {
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
             post = db.GetJsonQuery(string.Format("select * from getpost where ident ='{0}'", postId));
 
             answers = db.GetJsonQuery(string.Format("select * from getpostcomments where postident = '{0}'", postId));
@@ -91,21 +88,21 @@ namespace SE2StackOverflow
         public static bool CreateNewPost(NameValueCollection input, int userId)
         {
             input = Validator.ValidateForm(input);
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
-            string query = LongQueries.InsertPostQuery(input["title"], input["body"], userId);
+            var query = LongQueries.InsertPostQuery(input["title"], input["body"], userId);
 
-            OracleDataReader reader = db.QueryDb(query);
+            var reader = db.QueryDb(query);
 
             if (reader != null)
             {
                 // We take the tags an make it into a list
-                string[] tags = input["tags"].Split(',');
+                var tags = input["tags"].Split(',');
 
-                foreach (string item in tags)
+                foreach (var item in tags)
                 {
                     // We remove escapes and whitespaces
-                    string tag = item.Trim();
+                    var tag = item.Trim();
 
                     // Query the db if the key exists
                     query = string.Format("SELECT * FROM TAGS WHERE name = '{0}'", tag);
@@ -115,7 +112,7 @@ namespace SE2StackOverflow
                     // If it doesn't we make it
                     if (!reader.HasRows)
                     {
-                        string secondQuery = string.Format(
+                        var secondQuery = string.Format(
                             "INSERT INTO TAGS (ident, name) VALUES ('{0}', '{1}');", 
                             int.Parse(db.SingleIdentOperation("tags", SqlOperator.Max)) + 1, 
                             tag);
@@ -124,15 +121,10 @@ namespace SE2StackOverflow
                         reader = db.QueryDb(query);
                     }
 
-                    if (reader == null)
-                    {
-                        return false;
-                    }
-
                     reader.Read();
 
                     // We save the tag identity
-                    string tagIdent = reader["ident"].ToString();
+                    var tagIdent = reader["ident"].ToString();
 
                     // Now we get the last inserted row from the post
                     query = string.Format("SELECT ident FROM post WHERE title = '{0}'", input["title"]);
@@ -140,7 +132,7 @@ namespace SE2StackOverflow
                     reader = db.QueryDb(query);
 
                     reader.Read();
-                    string postIdent = reader[0].ToString();
+                    var postIdent = reader[0].ToString();
 
                     // We can now couple them in M2M tables
                     query =

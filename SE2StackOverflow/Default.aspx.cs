@@ -6,7 +6,6 @@
 //   The default.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -14,12 +13,12 @@ namespace SE2StackOverflow
     using System.Web.UI;
 
     /// <summary>
-    /// The default.
+    ///     The default.
     /// </summary>
     public partial class Default : Page
     {
         /// <summary>
-        /// The questions.
+        ///     The questions.
         /// </summary>
         private List<Dictionary<string, string>> questions;
 
@@ -37,7 +36,7 @@ namespace SE2StackOverflow
             // Select the questions
             this.questions = new List<Dictionary<string, string>>();
 
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
             this.questions = db.GetJsonQuery("select * from indexview;");
         }
@@ -56,9 +55,9 @@ namespace SE2StackOverflow
             this.PostLabel.Text = string.Empty;
 
             // Render the existing dictionary
-            foreach (Dictionary<string, string> item in this.questions)
+            foreach (var item in this.questions)
             {
-                string text =
+                var text =
                     string.Format(
                         "<h2><a href='Post?post={6}'>{0}</a></h2><p>Posted by: {1} on {2}</p><p>Votes: {3} Answers: {4}</p><p>Tags: {5}</p>", 
                         item["title"], 

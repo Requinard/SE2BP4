@@ -6,13 +6,12 @@
 //   Handles validations
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow.Logic
 {
     using System.Collections.Specialized;
 
     /// <summary>
-    /// Handles validations
+    ///     Handles validations
     /// </summary>
     public class Validator
     {
@@ -27,7 +26,7 @@ namespace SE2StackOverflow.Logic
         /// </returns>
         public static NameValueCollection ValidateForm(NameValueCollection form)
         {
-            NameValueCollection ret = new NameValueCollection();
+            var ret = new NameValueCollection();
             foreach (string key in form.Keys)
             {
                 ret[key] = form[key];

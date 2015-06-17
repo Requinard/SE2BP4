@@ -6,7 +6,6 @@
 //   The post.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -15,22 +14,22 @@ namespace SE2StackOverflow
     using System.Web.UI;
 
     /// <summary>
-    /// The post.
+    ///     The post.
     /// </summary>
     public partial class Post : Page
     {
         /// <summary>
-        /// The answers.
+        ///     The answers.
         /// </summary>
         private List<Dictionary<string, string>> answers;
 
         /// <summary>
-        /// The post.
+        ///     The post.
         /// </summary>
         private List<Dictionary<string, string>> post;
 
         /// <summary>
-        /// The post id.
+        ///     The post id.
         /// </summary>
         private int postId;
 
@@ -58,14 +57,14 @@ namespace SE2StackOverflow
 
             this.postId = int.Parse(this.Request.QueryString["post"]);
 
-            Database db = DatabaseSingleton.GetInstance();
+            var db = DatabaseSingleton.GetInstance();
 
             // If it's a post, we insert a new comment
             if (this.Request.HttpMethod == "POST" && !string.IsNullOrEmpty(userId))
             {
                 PostCommentController.InsertComment(this.Request.Form, this.postId, int.Parse(userId));
             }
-            
+
             // haal de data op
             PostCommentController.RetrievePost(this.postId, out this.post, out this.answers);
         }
@@ -81,7 +80,7 @@ namespace SE2StackOverflow
         /// </param>
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            Dictionary<string, string> placeholder = this.post.First();
+            var placeholder = this.post.First();
             this.PostLabel.Text = string.Format(
                 "<h1>{0}</h1><h4>{1} - {2}</h4><p>{3}</p><p>Tagged as: <i>{4}</i></p>", 
                 placeholder["title"], 
@@ -92,7 +91,7 @@ namespace SE2StackOverflow
                 placeholder["ident"]);
 
             this.AnswerLabel.Text = string.Empty;
-            foreach (Dictionary<string, string> ans in this.answers)
+            foreach (var ans in this.answers)
             {
                 if (ans["isanswer"] == 1.ToString())
                 {

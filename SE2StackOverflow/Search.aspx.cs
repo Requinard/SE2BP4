@@ -6,7 +6,6 @@
 //   The search.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace SE2StackOverflow
 {
     using System;
@@ -17,12 +16,12 @@ namespace SE2StackOverflow
     using SE2StackOverflow.Logic;
 
     /// <summary>
-    /// The search.
+    ///     The search.
     /// </summary>
     public partial class Search : Page
     {
         /// <summary>
-        /// The results.
+        ///     The results.
         /// </summary>
         private List<Dictionary<string, string>> results;
 
@@ -38,8 +37,8 @@ namespace SE2StackOverflow
         protected void Page_Load(object sender, EventArgs e)
         {
             // Vervang de inkomende data en zet deze in een name valuecollections
-            string query = this.Request.QueryString["query"].Replace("+", " ");
-            NameValueCollection v = new NameValueCollection();
+            var query = this.Request.QueryString["query"].Replace("+", " ");
+            var v = new NameValueCollection();
             v["query"] = query;
 
             // Valideer deze
@@ -62,7 +61,7 @@ namespace SE2StackOverflow
         {
             this.Content.Text = string.Empty;
 
-            foreach (Dictionary<string, string> item in this.results)
+            foreach (var item in this.results)
             {
                 this.Content.Text += string.Format(
                     "<h2><a href='/Post?post={0}'>{1}</a></h2><p>Posted on {2}", 
